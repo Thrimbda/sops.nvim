@@ -501,7 +501,7 @@ local function temp_fifo_for(command)
   local pid = vim.fn.getpid()
 
   for index = 1, 100 do
-    local candidate = dir .. '/.nvim-sops-stdin-' .. pid .. '-' .. index .. '.fifo'
+    local candidate = dir .. '/.sops.nvim-stdin-' .. pid .. '-' .. index .. '.fifo'
     if vim.fn.getftype(candidate) == '' then
       return candidate
     end
@@ -544,7 +544,7 @@ end
 
 local function run_with_fifo(command, input)
   if not vim.system then
-    return 'nvim-sops requires vim.system for stdin encryption', -1
+    return 'sops.nvim requires vim.system for stdin encryption', -1
   end
 
   local fifo = temp_fifo_for(command)
@@ -558,7 +558,7 @@ local function run_with_fifo(command, input)
   end
 
   local sops_job = vim.system(replace_stdin_file(command, fifo), { text = true })
-  local writer_job = vim.system({ 'sh', '-c', 'cat > "$1"', 'nvim-sops-writer', fifo }, {
+  local writer_job = vim.system({ 'sh', '-c', 'cat > "$1"', 'sops.nvim-writer', fifo }, {
     stdin = input,
     text = true,
   })

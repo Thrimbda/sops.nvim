@@ -6,6 +6,7 @@
 - `patterns.md`: reusable implementation patterns.
 - `maintenance.md`: deferred cleanup or follow-up items.
 - `tasks/fix-sops-metadata-encryption.md`: task summary for metadata-based SOPS re-encryption.
+- `tasks/rename-plugin-display-name.md`: task summary for Lua-visible plugin label cleanup.
 
 ## Query Path
 

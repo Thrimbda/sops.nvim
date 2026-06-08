@@ -6,11 +6,11 @@ local sops = require('nvim_sops.sops')
 local M = {}
 
 local function notify_error(message)
-  vim.api.nvim_echo({ { 'nvim-sops: ' .. message, 'ErrorMsg' } }, true, {})
+  vim.api.nvim_echo({ { 'sops.nvim: ' .. message, 'ErrorMsg' } }, true, {})
 end
 
 local function notify_info(message)
-  vim.api.nvim_echo({ { 'nvim-sops: ' .. message, 'None' } }, true, {})
+  vim.api.nvim_echo({ { 'sops.nvim: ' .. message, 'None' } }, true, {})
 end
 
 local function set_secret_buffer_options()
@@ -32,7 +32,7 @@ local function temp_path_for(path)
   local nonce = uv and tostring(uv.hrtime()) or tostring(vim.fn.reltimefloat(vim.fn.reltime()))
 
   for index = 1, 100 do
-    local candidate = dir .. '/.' .. name .. '.nvim-sops-' .. pid .. '-' .. nonce .. '-' .. index .. '.tmp'
+    local candidate = dir .. '/.' .. name .. '.sops.nvim-' .. pid .. '-' .. nonce .. '-' .. index .. '.tmp'
     if vim.fn.getftype(candidate) == '' then
       return candidate
     end
