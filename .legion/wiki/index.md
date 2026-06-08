@@ -1,0 +1,13 @@
+# Legion Wiki
+
+## Entries
+
+- `decisions.md`: current cross-task decisions.
+- `patterns.md`: reusable implementation patterns.
+- `maintenance.md`: deferred cleanup or follow-up items.
+- `tasks/fix-sops-metadata-encryption.md`: task summary for metadata-based SOPS re-encryption.
+
+## Query Path
+
+- Start here, then read the relevant wiki page.
+- Drill into `.legion/tasks/**` only when raw evidence is needed.
