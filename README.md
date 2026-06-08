@@ -1,8 +1,12 @@
-# nvim-sops
+# sops.nvim
 
-**nvim-sops** is a lua plugin for neovim that wraps the [SOPS](https://github.com/mozilla/sops) commandline tool.
+**sops.nvim** is a lua plugin for neovim that wraps the [SOPS](https://github.com/mozilla/sops) commandline tool.
 
-It was partly inspired by [the vscode extension by sinageos](https://github.com/signageos/vscode-sops). It does not implement realtime encryption while editing or automatic SOPS file creation.
+It was partly inspired by [the vscode extension by signageos](https://github.com/signageos/vscode-sops). It does not implement realtime encryption while editing or automatic SOPS file creation.
+
+## Attribution
+
+This project is derived from [`prismatic-koi/nvim-sops`](https://github.com/prismatic-koi/nvim-sops), originally created by Ben Sherman. The current automatic edit workflow and ongoing maintenance are by Siyuan Wang.
 
 ## Features
 
@@ -48,7 +52,7 @@ nix-shell
 
 ```lua
 {
-  'prismatic-koi/nvim-sops',
+  'Thrimbda/sops.nvim',
   -- Required for automatic BufReadCmd handling on the first opened file.
   lazy = false,
   opts = {
@@ -65,7 +69,7 @@ The plugin must be loaded before opening supported encrypted files. Do not lazy-
 
 ```lua
 use {
-  'prismatic-koi/nvim-sops',
+  'Thrimbda/sops.nvim',
   config = function()
     require('nvim_sops').setup {
       -- your configuration comes here
@@ -78,7 +82,7 @@ use {
 
 ## Configuration
 
-nvim-sops comes with the following defaults
+sops.nvim comes with the following defaults
 
 ```lua
 {
@@ -93,7 +97,7 @@ nvim-sops comes with the following defaults
 }
 ```
 
-If a value in `defaults` is not set, nvim-sops reads the matching environment variable from the current process:
+If a value in `defaults` is not set, sops.nvim reads the matching environment variable from the current process:
 
 | Option | Environment variable |
 | --- | --- |
@@ -102,4 +106,4 @@ If a value in `defaults` is not set, nvim-sops reads the matching environment va
 | `defaults.gcpCredentialsPath` | `GOOGLE_APPLICATION_CREDENTIALS` |
 
 ## Keymaps
-nvim-sops doesnt come with any default keybindings. The workflow is automatic for supported suffixes.
+sops.nvim doesnt come with any default keybindings. The workflow is automatic for supported suffixes.
