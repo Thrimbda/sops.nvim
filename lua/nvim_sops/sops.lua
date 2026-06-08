@@ -701,4 +701,23 @@ M.encrypt_text = function(path, text)
   return M.run(args, text)
 end
 
+M.encrypt_new_text = function(path, text)
+  local file_type = M.file_type_for_path(path)
+  if not file_type then
+    return {
+      ok = false,
+      code = -1,
+      output = 'Unsupported SOPS file type: ' .. path,
+    }
+  end
+
+  return M.run({
+    '--encrypt',
+    '--input-type', file_type,
+    '--output-type', file_type,
+    '--filename-override', path,
+    stdin_file,
+  }, text)
+end
+
 return M
