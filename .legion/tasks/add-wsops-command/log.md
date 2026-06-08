@@ -12,3 +12,5 @@
 - Completed read-only review with security lens for secrets/SOPS handling; no blocking findings.
 - Wrote reviewer walkthrough and PR body from existing implementation, verification, and review evidence.
 - Completed wiki writeback with task summary, new-file creation decision, and reusable creation path patterns.
+- Rebasing onto latest `origin/main` conflicted only in `.legion/wiki/log.md`; resolved by preserving both the upstream `rename-plugin-display-name` entry and this task's wiki entry.
+- Reverified key command behavior and `git diff --check origin/main...HEAD` after rebase.

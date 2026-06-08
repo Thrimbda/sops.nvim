@@ -23,6 +23,18 @@ nvim --headless -u NONE -c "set rtp+=." -c "lua ... rejection path verification 
 - PASS: rejected a file path argument as not being a directory without creating output.
 
 ```sh
+nvim --headless -u NONE -c "set rtp+=." -c "lua ... post-rebase command behavior reverification ..."
+```
+
+- PASS: after rebasing onto latest `origin/main`, reverified same-directory `.yaml` creation and interactive lowercase `:wsops` directory-argument `.env` creation.
+
+```sh
+git diff --check origin/main...HEAD
+```
+
+- PASS: no whitespace errors in the rebased diff.
+
+```sh
 luac -p "lua/nvim_sops/commands.lua" "lua/nvim_sops/sops.lua" "lua/nvim_sops/init.lua"
 ```
 
