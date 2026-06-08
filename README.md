@@ -30,7 +30,7 @@ Opening the file runs SOPS decrypt and loads the plaintext into the current buff
 :w
 ```
 
-Writing the buffer sends the current buffer text to SOPS through a same-directory FIFO, encrypts it, writes the encrypted output to a same-directory temporary file, and then replaces the target file.
+Writing the buffer sends the current buffer text to SOPS through a same-directory FIFO, encrypts it with key information read from the existing encrypted file metadata, writes the encrypted output to a same-directory temporary file, and then replaces the target file.
 
 The plugin avoids writing plaintext to the target file path or to a temporary plaintext file. Plaintext still exists in the Neovim process while the buffer is open.
 
@@ -38,7 +38,7 @@ The plugin avoids writing plaintext to the target file path or to a temporary pl
 - The plugin expects you to have the `sops` commandline tool. You can get it here: https://github.com/mozilla/sops/releases
 - It expects the binary to be on your `$PATH`, but you can set a custom path in the opts
 - It expects your SOPS keys and configuration to be set up already
-- For automatic writes, SOPS should be able to resolve creation rules from the target filename
+- Automatic writes support existing encrypted files. Creating new encrypted files still requires SOPS creation rules or explicit keys outside this plugin workflow
 
 If you use Nix, this repository includes a development shell with `sops` and `age`:
 
