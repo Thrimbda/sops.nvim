@@ -65,8 +65,72 @@ local function write_encrypted_file(path, encrypted_text)
   return true
 end
 
+local function write_new_encrypted_file(path, encrypted_text)
+  if vim.fn.getftype(path) ~= '' then
+    return false, 'Refusing to overwrite existing file: ' .. path
+  end
+
+  local write_code, write_err = utils.write_text_file_exclusive(path, encrypted_text)
+  if write_code ~= 0 then
+    return false, 'Unable to write encrypted file: ' .. path .. (write_err and ('\n' .. write_err) or '')
+  end
+
+  return true
+end
+
 local function current_file_path(path)
   return vim.fn.fnamemodify(path or vim.fn.expand('%:p'), ':p')
+end
+
+local function current_buffer_file_path()
+  local path = vim.fn.expand('%:p')
+  if path == '' then
+    return
+  end
+
+  return vim.fn.fnamemodify(path, ':p')
+end
+
+local function path_join(dir, name)
+  local separator = '/'
+  if dir:sub(-1) == '/' then
+    separator = ''
+  end
+
+  return dir .. separator .. name
+end
+
+local source_suffixes = {
+  { suffix = '.env', encrypted_suffix = '.enc.env' },
+  { suffix = '.json', encrypted_suffix = '.enc.json' },
+  { suffix = '.yaml', encrypted_suffix = '.enc.yaml' },
+}
+
+local function target_name_for_source(path)
+  local name = vim.fn.fnamemodify(path, ':t')
+
+  for _, item in ipairs(source_suffixes) do
+    if name:sub(-#item.encrypted_suffix) == item.encrypted_suffix then
+      return
+    end
+
+    if name:sub(-#item.suffix) == item.suffix then
+      return name:sub(1, #name - #item.suffix) .. item.encrypted_suffix
+    end
+  end
+end
+
+local function target_dir_for(arg, source_file)
+  if not arg or arg == '' then
+    return vim.fn.fnamemodify(source_file, ':h')
+  end
+
+  local dir = vim.fn.fnamemodify(vim.fn.expand(arg), ':p')
+  if vim.fn.getftype(dir) ~= 'dir' then
+    return nil, 'Target path is not a directory: ' .. arg
+  end
+
+  return dir
 end
 
 local function clear_buffer_state()
@@ -130,12 +194,75 @@ M.write_encrypted = function(path)
   notify_info('Encrypted file written: ' .. output_file)
 end
 
+M.create_encrypted = function(target_dir_arg)
+  local source_file = current_buffer_file_path()
+  if not source_file then
+    notify_error('Current buffer does not have a file path')
+    return
+  end
+
+  local target_name = target_name_for_source(source_file)
+  if not target_name then
+    notify_error('Unsupported plaintext file type: ' .. source_file)
+    return
+  end
+
+  local target_dir, dir_err = target_dir_for(target_dir_arg, source_file)
+  if not target_dir then
+    notify_error(dir_err)
+    return
+  end
+
+  local output_file = path_join(target_dir, target_name)
+  if vim.fn.getftype(output_file) ~= '' then
+    notify_error('Refusing to overwrite existing file: ' .. output_file)
+    return
+  end
+
+  local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+  local plaintext = utils.join_lines(lines, vim.bo.endofline)
+  local result = sops.encrypt_new_text(output_file, plaintext)
+
+  if not result.ok then
+    notify_error('Error creating encrypted file: ' .. output_file .. '\n' .. result.output)
+    return
+  end
+
+  local ok, err = write_new_encrypted_file(output_file, result.output)
+  if not ok then
+    notify_error(err)
+    return
+  end
+
+  notify_info('Encrypted file created: ' .. output_file)
+end
+
+M.setup_user_commands = function()
+  if vim.g.nvim_sops_enabled == false then
+    return
+  end
+
+  vim.api.nvim_create_user_command('Wsops', function(args)
+    M.create_encrypted(args.args)
+  end, {
+    nargs = '?',
+    complete = 'dir',
+    desc = 'Create a SOPS encrypted .enc file from the current plaintext buffer',
+    force = true,
+  })
+
+  vim.cmd([[silent! cunabbrev wsops]])
+  vim.cmd([[cnoreabbrev <expr> wsops getcmdtype() ==# ':' && getcmdline() =~# '^\s*wsops$' ? 'Wsops' : 'wsops']])
+end
+
 M.setup_autocmds = function()
   local group = vim.api.nvim_create_augroup('nvim_sops', { clear = true })
 
   if vim.g.nvim_sops_enabled == false then
     return
   end
+
+  M.setup_user_commands()
 
   vim.api.nvim_create_autocmd('BufReadCmd', {
     group = group,
