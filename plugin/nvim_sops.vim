@@ -1,0 +1,11 @@
+if exists('g:loaded_nvim_sops')
+  finish
+endif
+
+if !exists('g:__nvim_sops_setup_completed')
+    lua require("nvim_sops").setup {}
+endif
+
+lua require('nvim_sops').init()
+
+let g:loaded_nvim_sops = 1
