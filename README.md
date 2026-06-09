@@ -6,7 +6,7 @@ It was partly inspired by [the vscode extension by signageos](https://github.com
 
 ## Attribution
 
-This project is derived from [`prismatic-koi/nvim-sops`](https://github.com/prismatic-koi/nvim-sops), originally created by Ben Sherman. The current automatic edit workflow and ongoing maintenance are by Siyuan Wang.
+This project is derived from Ben Sherman's original SOPS plugin for Neovim. The current automatic edit workflow and ongoing maintenance are by Siyuan Wang.
 
 ## Features
 
