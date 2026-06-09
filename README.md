@@ -12,14 +12,14 @@ This project is derived from Ben Sherman's original SOPS plugin for Neovim. The 
 
 - Automatically decrypts supported encrypted files into the current buffer when opened with `:e`
 - Automatically encrypts the current buffer back to the target file on `:w`
-- Supports automatic editing for `.enc.env`, `.enc.json`, and `.enc.yaml`
-- Creates `.enc.env`, `.enc.json`, and `.enc.yaml` files from plaintext `.env`, `.json`, and `.yaml` buffers with `:wsops`
+- Supports automatic editing for `.enc`, `.enc.env`, `.enc.json`, and `.enc.yaml`
+- Creates `.enc` binary files from ordinary plaintext buffers, and `.enc.env`, `.enc.json`, or `.enc.yaml` files from matching structured buffers with `:wsops`
 - Allows overriding `AWS_PROFILE`, `SOPS_AGE_KEY_FILE`, or `GOOGLE_APPLICATION_CREDENTIALS` within neovim
 - Includes a `debug` option for verbose command information
 
 ## Workflow
 
-For files ending in `.enc.env`, `.enc.json`, or `.enc.yaml`, the plugin installs `BufReadCmd` and `BufWriteCmd` handlers.
+For files ending in `.enc`, `.enc.env`, `.enc.json`, or `.enc.yaml`, the plugin installs `BufReadCmd` and `BufWriteCmd` handlers. Plain `.enc` files use SOPS `binary` type; structured suffixes use their matching SOPS types.
 
 ```vim
 :e secrets.enc.yaml
@@ -35,19 +35,19 @@ Writing the buffer sends the current buffer text to SOPS through a same-director
 
 The plugin avoids writing plaintext to the target file path or to a temporary plaintext file. Plaintext still exists in the Neovim process while the buffer is open.
 
-To create a new encrypted file from a plaintext `.env`, `.json`, or `.yaml` buffer, run:
+To create a new encrypted file from a plaintext buffer, run:
 
 ```vim
 :wsops
 ```
 
-The command creates a sibling file with an `.enc` infix, such as `secrets.enc.yaml` for `secrets.yaml` or `.enc.env` for `.env`. To create the encrypted file inside another existing directory, pass that directory:
+The command creates a sibling file with an `.enc` infix for structured buffers, such as `secrets.enc.yaml` for `secrets.yaml` or `.enc.env` for `.env`. Other plaintext filenames create a plain `.enc` target, such as `secret.bin.enc` for `secret.bin`, and use SOPS `binary` type. To create the encrypted file inside another existing directory, pass that directory:
 
 ```vim
 :wsops ../encrypted
 ```
 
-New encrypted file creation uses your SOPS creation rules for the target `.enc.*` filename and refuses to overwrite an existing target.
+New encrypted file creation uses your SOPS creation rules for the target `.enc` or `.enc.*` filename and refuses to overwrite an existing target.
 
 ## Requirements
 - The plugin expects you to have the `sops` commandline tool. You can get it here: https://github.com/mozilla/sops/releases

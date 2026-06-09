@@ -118,6 +118,12 @@ local function target_name_for_source(path)
       return name:sub(1, #name - #item.suffix) .. item.encrypted_suffix
     end
   end
+
+  if name:sub(-#'.enc') == '.enc' then
+    return
+  end
+
+  return name .. '.enc'
 end
 
 local function target_dir_for(arg, source_file)

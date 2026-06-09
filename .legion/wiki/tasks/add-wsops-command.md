@@ -16,5 +16,5 @@
 ## Current Truth
 
 - Native Neovim user commands cannot be lowercase, so the implementation uses canonical `:Wsops` plus a guarded command-line abbreviation for practical `:wsops` input.
-- The command refuses unsupported plaintext suffixes, non-directory arguments, and existing encrypted targets.
+- The command refuses non-directory arguments and existing encrypted targets. Ordinary non-structured filename support was expanded later by `add-enc-binary-support`.
 - The creation path keeps plaintext in the existing stdin/FIFO flow and writes only encrypted SOPS output to the new target.
