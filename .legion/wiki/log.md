@@ -9,3 +9,4 @@
 ## 2026-06-09
 
 - Added task summary for `rename-readme-display-name`.
+- Added task summary, suffix-type patterns, and updated creation-path current truth for `add-enc-binary-support`.

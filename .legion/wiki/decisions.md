@@ -10,6 +10,6 @@
 ## SOPS New-File Creation
 
 - Status: current
-- Source task: `add-wsops-command`
-- Decision: First-time encrypted file creation should rely on the user's SOPS creation rules or other SOPS-supported key configuration for the target `.enc.*` filename, not on new plugin key-management options.
-- Boundary: The plugin should pass plaintext through stdin/FIFO, refuse unsupported source suffixes and existing targets, and surface SOPS failures when no matching creation rule or key configuration exists.
+- Source tasks: `add-wsops-command`, updated by `add-enc-binary-support`
+- Decision: First-time encrypted file creation should rely on the user's SOPS creation rules or other SOPS-supported key configuration for the target `.enc` or `.enc.*` filename, not on new plugin key-management options.
+- Boundary: The plugin should pass plaintext through stdin/FIFO, refuse already encrypted source names and existing targets, and surface SOPS failures when no matching creation rule or key configuration exists.

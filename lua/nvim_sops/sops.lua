@@ -7,12 +7,14 @@ M.supported_patterns = {
   '*.enc.env',
   '*.enc.json',
   '*.enc.yaml',
+  '*.enc',
 }
 
 local supported_types = {
   { pattern = '%.enc%.env$', type = 'dotenv' },
   { pattern = '%.enc%.json$', type = 'json' },
   { pattern = '%.enc%.yaml$', type = 'yaml' },
+  { pattern = '%.enc$', type = 'binary' },
 }
 
 local key_flag_order = {
@@ -458,7 +460,7 @@ local function metadata_key_args(path, file_type)
   end
 
   local keys
-  if file_type == 'json' then
+  if file_type == 'json' or file_type == 'binary' then
     local metadata
     metadata, err = metadata_from_json(text)
     if metadata then
