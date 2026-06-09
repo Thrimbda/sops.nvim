@@ -8,6 +8,7 @@
 - `tasks/add-wsops-command.md`: task summary for plaintext-to-encrypted SOPS file creation.
 - `tasks/fix-sops-metadata-encryption.md`: task summary for metadata-based SOPS re-encryption.
 - `tasks/rename-plugin-display-name.md`: task summary for Lua-visible plugin label cleanup.
+- `tasks/rename-readme-display-name.md`: task summary for README old-name cleanup.
 
 ## Query Path
 
