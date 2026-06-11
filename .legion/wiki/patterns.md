@@ -9,14 +9,17 @@
 
 ## SOPS Suffix Types
 
-- Map `.enc.env`, `.enc.json`, and `.enc.yaml` to SOPS `dotenv`, `json`, and `yaml` respectively.
+- Map `.enc.env` and `.sops.env` to SOPS `dotenv`.
+- Map `.enc.json` and `.sops.json` to SOPS `json`.
+- Map `.enc.yaml` and `.sops.yaml` to SOPS `yaml`.
 - Map a plain `.enc` suffix to SOPS `binary`.
-- Keep structured suffix checks before the plain `.enc` check so existing `.enc.*` files do not get reclassified as binary.
+- Keep structured suffix checks before the plain `.enc` check so existing `.enc.*` and `.sops.*` files do not get reclassified as binary.
 
 ## SOPS Creation Path
 
 - Derive first-time structured encrypted targets by inserting `.enc` before supported plaintext suffixes: `.env`, `.json`, and `.yaml`.
 - For other plaintext filenames, derive the encrypted target by appending `.enc` and using SOPS `binary` type.
+- Treat `.sops.*` support as automatic recognition only; first-time creation still derives `.enc` or `.enc.*` targets.
 - Use the target encrypted filename as the SOPS filename override so creation rules match the file that will be written.
 - Refuse already encrypted source names, refuse to overwrite existing targets, and write encrypted output through exclusive file creation.
 - For lowercase command UX in Neovim, use a guarded command-line abbreviation around an uppercase canonical user command because native user commands cannot be lowercase.

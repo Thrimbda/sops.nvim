@@ -12,14 +12,14 @@ This project is derived from Ben Sherman's original SOPS plugin for Neovim. The 
 
 - Automatically decrypts supported encrypted files into the current buffer when opened with `:e`
 - Automatically encrypts the current buffer back to the target file on `:w`
-- Supports automatic editing for `.enc`, `.enc.env`, `.enc.json`, and `.enc.yaml`
+- Supports automatic editing for `.enc`, `.enc.env`, `.enc.json`, `.enc.yaml`, `.sops.env`, `.sops.json`, and `.sops.yaml`
 - Creates `.enc` binary files from ordinary plaintext buffers, and `.enc.env`, `.enc.json`, or `.enc.yaml` files from matching structured buffers with `:wsops`
 - Allows overriding `AWS_PROFILE`, `SOPS_AGE_KEY_FILE`, or `GOOGLE_APPLICATION_CREDENTIALS` within neovim
 - Includes a `debug` option for verbose command information
 
 ## Workflow
 
-For files ending in `.enc`, `.enc.env`, `.enc.json`, or `.enc.yaml`, the plugin installs `BufReadCmd` and `BufWriteCmd` handlers. Plain `.enc` files use SOPS `binary` type; structured suffixes use their matching SOPS types.
+For files ending in `.enc`, `.enc.env`, `.enc.json`, `.enc.yaml`, `.sops.env`, `.sops.json`, or `.sops.yaml`, the plugin installs `BufReadCmd` and `BufWriteCmd` handlers. Plain `.enc` files use SOPS `binary` type; structured suffixes use their matching SOPS types.
 
 ```vim
 :e secrets.enc.yaml

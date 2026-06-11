@@ -7,6 +7,9 @@ M.supported_patterns = {
   '*.enc.env',
   '*.enc.json',
   '*.enc.yaml',
+  '*.sops.env',
+  '*.sops.json',
+  '*.sops.yaml',
   '*.enc',
 }
 
@@ -14,6 +17,9 @@ local supported_types = {
   { pattern = '%.enc%.env$', type = 'dotenv' },
   { pattern = '%.enc%.json$', type = 'json' },
   { pattern = '%.enc%.yaml$', type = 'yaml' },
+  { pattern = '%.sops%.env$', type = 'dotenv' },
+  { pattern = '%.sops%.json$', type = 'json' },
+  { pattern = '%.sops%.yaml$', type = 'yaml' },
   { pattern = '%.enc$', type = 'binary' },
 }
 
