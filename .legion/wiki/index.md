@@ -10,6 +10,7 @@
 - `tasks/fix-sops-metadata-encryption.md`: task summary for metadata-based SOPS re-encryption.
 - `tasks/rename-plugin-display-name.md`: task summary for Lua-visible plugin label cleanup.
 - `tasks/rename-readme-display-name.md`: task summary for README old-name cleanup.
+- `tasks/support-sops-infix-patterns.md`: task summary for `.sops.*` automatic edit support.
 
 ## Query Path
 

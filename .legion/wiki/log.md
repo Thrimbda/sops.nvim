@@ -10,3 +10,8 @@
 
 - Added task summary for `rename-readme-display-name`.
 - Added task summary, suffix-type patterns, and updated creation-path current truth for `add-enc-binary-support`.
+
+## 2026-06-11
+
+- Added task summary for `support-sops-infix-patterns`.
+- Updated suffix-type and creation-path patterns to include `.sops.env`, `.sops.json`, and `.sops.yaml` as recognition-only automatic edit support.
